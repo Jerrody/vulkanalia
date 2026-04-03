@@ -44,7 +44,7 @@ impl<'a> AllocatorOptions<'a> {
 
 #[repr(transparent)]
 #[derive(Debug)]
-pub struct Allocator(pub(crate) VmaAllocator);
+pub struct Allocator(pub VmaAllocator);
 
 impl Allocator {
     pub unsafe fn new(options: &AllocatorOptions) -> VkResult<Self> {
