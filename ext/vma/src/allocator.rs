@@ -43,7 +43,7 @@ impl<'a> AllocatorOptions<'a> {
 }
 
 #[repr(transparent)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct Allocator(pub VmaAllocator);
 
 impl Allocator {
@@ -222,14 +222,6 @@ impl Allocator {
         if !self.0.is_null() {
             unsafe { vmaDestroyAllocator(self.0) };
             self.0 = core::ptr::null_mut();
-        }
-    }
-}
-
-impl Drop for Allocator {
-    fn drop(&mut self) {
-        unsafe {
-            self.destroy_allocator();
         }
     }
 }
