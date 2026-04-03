@@ -217,12 +217,20 @@ impl Allocator {
     ) -> VkResult<()> {
         vmaInvalidateAllocation(self.0, allocation.0, offset, size).result()
     }
+
+    pub unsafe fn destroy_allocator(&mut self) {
+        if !self.0.is_null() {
+            unsafe { vmaDestroyAllocator(self.0) };
+            self.0 = core::ptr::null_mut();
+        }
+    }
 }
 
 impl Drop for Allocator {
     fn drop(&mut self) {
-        unsafe { vmaDestroyAllocator(self.0) };
-        self.0 = core::ptr::null_mut();
+        unsafe {
+            self.destroy_allocator();
+        }
     }
 }
 
